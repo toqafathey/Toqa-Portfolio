@@ -5,8 +5,7 @@ Editorial, luxury-style portfolio for **Toqa Fathey, Social Media Specialist & C
 Stack: React 18 · TypeScript · Tailwind CSS 3 · Three.js (plain Three.js, no React Three Fiber) · Vite · lucide-react.
 
 > **Build status:** the code was written in a workspace where the npm registry was blocked, so `npm install`, the
-> TypeScript check and `npm run build` have **not been run yet**. Run them first (see below) and fix any small
-> type or styling issues that appear. Nothing has been viewed in a browser yet either.
+> TypeScript check, `npm run build` and a browser check have **not been run yet**. Run them first and report any errors.
 
 ## Run it
 
@@ -30,83 +29,69 @@ After deploying, set the canonical URL and Open Graph image in `index.html` (bot
 | What | File |
 | --- | --- |
 | Name, headline, intro, About copy, contact details, CV path, social links | `src/data/siteConfig.ts` |
-| Career history (feeds the 3D timeline, the 2D fallback, and earlier experience) | `src/data/experienceData.ts` |
-| Portfolio projects, status labels, categories, images | `src/data/projects.ts` |
-| Skills, tools, approach, "what I bring", education | `src/data/content.ts` |
-| Colors and fonts | `tailwind.config.js`, `index.html` (font link) |
+| Experience (feeds the 3D timeline and the 2D fallback; no dates are shown) | `src/data/experienceData.ts` |
+| Featured projects, case studies, image lists, filters | `src/data/projects.ts` |
+| Skills, tools, brand logos, approach, education | `src/data/content.ts` |
+| Colors (original palette: charcoal `#171717`, rich black `#101010`, ivory, cream, champagne gold) and fonts | `tailwind.config.js`, `index.html` |
 
-## File overview
+## Real content currently on the site
 
-```
-src/
-  data/           types.ts, siteConfig.ts, experienceData.ts, projects.ts, content.ts
-  lib/            hooks.ts (media queries, active section), webgl.ts, seo.ts
-  styles/         index.css
-  components/
-    layout/       Navbar, Footer, SectionHeading, Reveal
-    hero/         Hero, HeroGraphic
-    about/        About, Skills (+ tools), Approach, TeamValue, Education
-    portfolio/    Portfolio (filters), ProjectCard, ProjectModal (case study), StatusBadge
-    timeline/     ExperienceTimeline (section, scroll + state), TimelineScene (React wrapper),
-                  SceneController (Three.js scene), TimelinePath, TimelineMilestone,
-                  CareerDetailPanel, CareerTimelineFallback, EarlierExperience
-    contact/      Contact
-public/
-  images/profile, images/portfolio/{veterinary,healthcare,restaurant,advertising,seo},
-  videos/portfolio, documents
-```
+- Hero photo: `public/images/profile/toqa-fathey-profile.webp`.
+- CV: `public/documents/Toqa-Fathey-CV.pdf` (copied unchanged from the supplied file).
+- Contact details come from the CV: email, LinkedIn (tracking parameters removed), two phone numbers, Cairo.
+- Brand logos: `public/images/brands/`.
+- Featured projects: Vet Home (6 designs), Al Mohamadia Medical Complex (6 designs and 4 website article screenshots), C.la.v57 (6 designs). Najm Digital Marketing (2 design ideas for its client LA Marketing).
+- Images were converted to WebP with English file names. To add or swap a sample, put the file in `public/images/portfolio/` and list it under `groups` in `projects.ts`.
 
-## Assets I need from you
+## Open points to confirm
 
-- A real portrait (optional), saved in `public/images/profile/`, then set `portraitSrc` in `siteConfig.ts`.
-- Your CV as a PDF in `public/documents/`, then set `contact.cvPath` (e.g. `/documents/Toqa-Fathey-CV.pdf`).
-- Work samples for each project: screenshots, post images, Reels/video files, article excerpts and links.
-- Professional email, LinkedIn URL, and optionally phone and location.
-- A 1200×630 social sharing image and a favicon (optional).
+1. The Najm card shows only 2 design ideas for LA Marketing. Add more samples in `projects.ts` if you have them.
+2. Remove a phone number or the location in `siteConfig.ts` if you prefer not to show it.
+3. The Content Calendars screenshots are not used.
 
-## Employment details to confirm
+## Publish
 
-1. Employer name for August 2025–Present.
-2. Employer name for July 2024–August 2025.
-3. Whether the restaurant and café marketing work belongs to the July 2024–August 2025 role or a separate employer.
-4. Whether the veterinary marketing work belongs to an existing role or a separate engagement.
-5. Employer and dates for the earlier Customer Service role.
-6. How any overlapping employment periods relate.
-7. Whether the Abdelrahman Alaa course is ongoing or completed.
+`dist/` is a static site. Upload it to any static host (Netlify, Vercel, Cloudflare Pages, GitHub Pages).
+Build command `npm run build`, output directory `dist`. No environment variables or backend are needed.
+After deploying, set the canonical URL and Open Graph image in `index.html` (both are commented placeholders).
 
-Until confirmed, all employers show as unspecified, the Customer Service role appears as "dates and employer not
-provided" outside the timeline, and the veterinary and restaurant/café entries are **hidden** in
-`experienceData.ts` (`hidden: true`, `kind: 'pending'`). Remove `hidden` to show one with an
-"Employment Details Pending Confirmation" label, or fill in its dates and employer and set `kind: 'timeline'`.
+## Where to edit things
 
-## Replacing placeholders with real work
+| What | File |
+| --- | --- |
+| Name, headline, intro, About copy, contact details, CV path, social links | `src/data/siteConfig.ts` |
+| Experience (feeds the 3D timeline and the 2D fallback; no dates are shown) | `src/data/experienceData.ts` |
+| Featured projects, case studies, image lists, filters | `src/data/projects.ts` |
+| Skills, tools, brand logos, approach, education | `src/data/content.ts` |
+| Colors (original palette: charcoal `#171717`, rich black `#101010`, ivory, cream, champagne gold) and fonts | `tailwind.config.js`, `index.html` |
 
-1. Copy image or video files into the matching `public/images/portfolio/...` or `public/videos/portfolio/` folder.
-2. In `src/data/projects.ts`, add them to that project's `visuals`:
-   ```ts
-   visuals: [{ src: '/images/portfolio/veterinary/post-01.jpg', alt: 'Describe the image', type: 'image' }]
-   ```
-   Only reference files that exist. Set `conceptual: true` on generated or illustrative visuals so they are labelled.
-3. Change `status` to `'Actual Work Sample'` or `'Published Work'` only for real work, and update `disclosure`.
-4. Fill `results` only with verified outcomes you can evidence. Leave it `null` otherwise.
-5. Current statuses: three projects are **Concept Project** (vet equipment, vet clinic setup, AI video) and five are
-   **Awaiting Assets**. No project is marked as published or as a verified sample, because no assets were supplied.
+## Real content currently on the site
 
-## Contact details and CV
+- Hero photo: `public/images/profile/toqa-fathey-profile.webp`.
+- CV: `public/documents/Toqa-Fathey-CV.pdf` (copied unchanged from the supplied file).
+- Contact details come from the CV: email, LinkedIn (tracking parameters removed), two phone numbers, Cairo.
+- Brand logos: `public/images/brands/`.
+- Featured projects: Vet Home (6 designs), Al Mohamadia Medical Complex (6 designs and 4 website article screenshots), C.la.v57 (6 designs). Najm Digital Marketing (2 design ideas for its client LA Marketing).
+- Images were converted to WebP with English file names. To add or swap a sample, put the file in `public/images/portfolio/` and list it under `groups` in `projects.ts`.
 
-Fill the empty strings in `siteConfig.contact`. Links appear only when a value exists: email becomes `mailto:`,
-phone becomes `tel:`, LinkedIn must start with `http(s)://`, and the CV becomes a download link. Until then the
-hero shows a visibly unavailable CV button (set `showCvPlaceholder: false` to hide it) and the contact section
-shows a placeholder note.
+## Open points to confirm
 
-There is deliberately **no contact form**: no delivery service has been configured, and a form that pretends to send
-would be misleading. To add one later, use a service such as Formspree or Web3Forms (or your own endpoint) and
-show a success message only after the service confirms delivery.
+1. "Nusuk" vs "Nusk": the supplied logo reads "nusuk", so the site uses Nusuk.
+2. The `LA` folder (two designs with a red LA logo) is not used because the client is not identified.
+3. Tools Notion, Trello, Veo 3 and Grok were added from an earlier message; Flow is not listed until confirmed.
+4. The CV email (`toqafathey98@gmail.com`) is used on the site.
+5. Remove a phone number or the location in `siteConfig.ts` if you prefer not to show it.
+6. The Content Calendars screenshots are not used.
+
+## Publish
+
+`dist/` is a static site. Upload it to any static host. No environment variables or backend are needed. After deploying, set the canonical URL in `index.html` (commented placeholder).
+
+There is deliberately no contact form: no delivery service is configured. To add one later, use a service such as Formspree or Web3Forms and show success only after the service confirms delivery.
 
 ## How the Three.js timeline works
 
-- `experienceData.ts` defines the entries. `ExperienceTimeline` takes the visible dated ones (plus any un-hidden
-  pending ones) and passes their labels to the scene.
+- `experienceData.ts` defines the entries. `ExperienceTimeline` takes every entry that is not hidden and passes the employer names to the scene.
 - `SceneController` builds the scene: perspective camera, ambient/key/rim lights, a moving focus light, a curved
   path (`TimelinePath`), one faceted marker per entry (`TimelineMilestone`, sharing geometry), and a few particles.
 - Hover or click on a marker highlights it and selects its entry; the HTML milestone buttons below the scene do the
